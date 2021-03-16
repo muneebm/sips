@@ -46,7 +46,7 @@ Every SIP-009 compliant smart contract in Stacks blockchain must implement the t
 
 Takes no arguments and returns the identifier for the last NFT registered using the contract. The returned ID can be used as the upper limit when iterating through all NFTs.
 
-This method should be defined as read-only, i.e. `define-read-only`.
+This function should be defined as read-only, i.e. `define-read-only`.
 
 ### Token URI
 
@@ -54,7 +54,7 @@ This method should be defined as read-only, i.e. `define-read-only`.
 
 Takes an NFT identifier and returns a response containing a valid URI which resolves to the NFT's metadata. The URI string must be wrapped in an `optional`. If the corresponding NFT doesn't exist or the contract doesn't maintain metadata, the response should be `(ok none)`. If a valid URI exists for the NFT, the response should be `(ok (some "<URI>"))`. The length of the returned URI is limited to 256 characters. The specification of the metadata should be covered in a separate SIP.
 
-This method should be defined as read-only, i.e. `define-read-only`.
+This function should be defined as read-only, i.e. `define-read-only`.
 
 ### Owner
 
@@ -66,13 +66,15 @@ If a call to function `get-owner` returns some principal `A`, then it must retur
 
 For any call to `get-owner` with an id greater than the last token id returned by the `get-last-token-id` function, the call should return a response `(ok none)`.
 
-This method should be defined as read-only, i.e. `define-read-only`.
+This function should be defined as read-only, i.e. `define-read-only`.
 
 ### Transfer
 
 `(transfer (uint principal principal) (response bool (tuple (kind (string-ascii 32)) (code uint))))` 
 
-The function changes the ownership of the NFT for the given identifier from the sender principal to the recipient principal. 
+The function changes the ownership of the NFT for the given identifier from the sender principal to the recipient principal.
+
+This function must be defined with define-public, as it alters state, and should be externally callable.
 
 After a successful call to `transfer`, the function `get-owner` must return the recipient of the `transfer` call as the new owner.
 
